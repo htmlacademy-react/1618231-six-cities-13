@@ -9,17 +9,16 @@ import PrivateRoute from './privat-route/privat-route';
 import { OfferType } from '../types/offer-type';
 
 type AppProps = {
-  offersCount: number;
   offersList: OfferType[];
 }
 
-const App = ({ offersCount, offersList }: AppProps): JSX.Element => (
+const App = ({ offersList }: AppProps): JSX.Element => (
   <BrowserRouter>
     <Routes>
       <Route path={AppRoute.Main}>
         <Route
           index
-          element={<PageMain offersCount={offersCount} offers = {offersList} />}
+          element={<PageMain offers = {offersList} />}
         />
         <Route
           path={AppRoute.Favorites}

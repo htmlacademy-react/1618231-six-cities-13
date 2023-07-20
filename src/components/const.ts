@@ -24,3 +24,5 @@ export enum Cities {
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
 }
+
+export const FIVE_STARS = 5;

@@ -77,7 +77,7 @@ export const offers : OfferType[] = [
     price: 327,
     previewImage: 'https://13.design.pages.academy/static/hotel/3.jpg',
     city: {
-      name: 'Hamburg',
+      name: 'Amsterdam',
       location: {
         latitude: 48.85661,
         longitude: 2.351499,
