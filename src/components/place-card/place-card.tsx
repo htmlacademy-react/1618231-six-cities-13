@@ -51,7 +51,7 @@ const PlaceCard = ({ data }: PlaceCardProps): JSX.Element => {
         <p className="place-card__type">{data.type}</p>
       </div>
     </article>
-  )
+  );
 };
 
 

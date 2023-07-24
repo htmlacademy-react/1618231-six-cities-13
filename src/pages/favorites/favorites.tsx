@@ -4,17 +4,17 @@ import FavoriteList from '../../components/favorite-list/favoriye-list';
 import { Link } from 'react-router-dom';
 
 type FavoritesProps = {
-  favorites: OfferType[];
+  offers: OfferType[];
 }
 
-const Favorites = ({favorites} : FavoritesProps): JSX.Element => (
+const Favorites = ({offers} : FavoritesProps): JSX.Element => (
   <div className="page">
     <Header isAuthorization />
     <main className="page__main page__main--favorites">
       <div className="page__favorites-container container">
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
-          <FavoriteList favorites = {favorites} />
+          <FavoriteList offers = {offers} />
         </section>
       </div>
     </main>

@@ -26,7 +26,7 @@ const App = ({ offersList }: AppProps): JSX.Element => (
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.Auth}
             >
-              <Favorites favorites = {offersList.filter((offer) => offer.isFavorite)} />
+              <Favorites offers = {offersList} />
             </PrivateRoute>
           }
         />
@@ -34,10 +34,9 @@ const App = ({ offersList }: AppProps): JSX.Element => (
           path={AppRoute.Login}
           element={<PageLogin />}
         />
-        <Route
-          path={AppRoute.Offer}
-          element={<Offer />}
-        />
+        <Route path={AppRoute.Offer} element={<Offer />}>
+          <Route path=':idOffer' element= {<Offer />} />
+        </Route>
         <Route
           path='*'
           element={<PageNotFound />}
