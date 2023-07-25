@@ -65,7 +65,7 @@ const PageMain = ({ offers }: PageMainProps): JSX.Element => {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >
-                <Map currentCity={currentCity} currentOffers={currentCityOffers} />
+                <Map currentOffers={currentCityOffers} />
               </section>
             </div>
           </div>
