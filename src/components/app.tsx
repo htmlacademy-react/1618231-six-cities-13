@@ -9,17 +9,16 @@ import PrivateRoute from './privat-route/privat-route';
 import { OfferType } from '../types/offer-type';
 
 type AppProps = {
-  offersCount: number;
   offersList: OfferType[];
 }
 
-const App = ({ offersCount, offersList }: AppProps): JSX.Element => (
+const App = ({ offersList }: AppProps): JSX.Element => (
   <BrowserRouter>
     <Routes>
       <Route path={AppRoute.Main}>
         <Route
           index
-          element={<PageMain offersCount={offersCount} offers = {offersList} />}
+          element={<PageMain offers = {offersList} />}
         />
         <Route
           path={AppRoute.Favorites}
@@ -27,7 +26,7 @@ const App = ({ offersCount, offersList }: AppProps): JSX.Element => (
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.Auth}
             >
-              <Favorites favorites = {offersList.filter((offer) => offer.isFavorite)} />
+              <Favorites offers = {offersList} />
             </PrivateRoute>
           }
         />
@@ -35,10 +34,9 @@ const App = ({ offersCount, offersList }: AppProps): JSX.Element => (
           path={AppRoute.Login}
           element={<PageLogin />}
         />
-        <Route
-          path={AppRoute.Offer}
-          element={<Offer />}
-        />
+        <Route path={AppRoute.Offer} element={<Offer />}>
+          <Route path=':idOffer' element= {<Offer />} />
+        </Route>
         <Route
           path='*'
           element={<PageNotFound />}
