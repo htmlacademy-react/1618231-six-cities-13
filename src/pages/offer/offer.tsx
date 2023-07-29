@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DetailedOfferType } from '../../types/offer-type';
 import CommentForm from '../../components/comment-form/comment-form';
@@ -11,10 +10,10 @@ import ReviewList from '../../components/review-list/review-list';
 import { reviews } from '../../mocks/reviews';
 
 const Offer = (): JSX.Element => {
-  const [reviewsList, setReviewsList] = useState(reviews);
+  // const [reviewsList, setReviewsList] = useState(reviews);
   const param = useParams();
   const euro = String.fromCodePoint(0x020AC);
-  const reviewOffer = reviewsList.find((review) => param.idOffer === review.idOffer);
+  const reviewOffer = reviews.find((review) => param.idOffer === review.idOffer);
 
   const detailedOffer: DetailedOfferType = detailedOffers.find((offer) => param.idOffer === offer.id);
   const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description } = detailedOffer;
@@ -91,7 +90,7 @@ const Offer = (): JSX.Element => {
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewOffer?.reviews.length}</span></h2>
-                <ReviewList reviewOffer = {reviewOffer} />
+                <ReviewList reviewOffer={reviewOffer} />
                 <CommentForm />
               </section>
             </div>

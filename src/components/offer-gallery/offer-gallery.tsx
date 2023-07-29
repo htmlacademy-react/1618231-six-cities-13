@@ -1,7 +1,7 @@
 import { DetailedOfferType } from '../../types/offer-type';
 
 type OfferGalleryProps = {
-  offer: DetailedOfferType | undefined;
+  offer?: DetailedOfferType | undefined;
 }
 
 const OfferGallery = ({ offer }: OfferGalleryProps): JSX.Element => (
