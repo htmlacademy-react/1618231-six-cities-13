@@ -8,6 +8,7 @@ import PageNotFound from '../pages/no-found-page/page-not-found';
 import PrivateRoute from './privat-route/privat-route';
 import { OfferType } from '../types/offer-type';
 
+
 type AppProps = {
   offersList: OfferType[];
 }
@@ -35,7 +36,7 @@ const App = ({ offersList }: AppProps): JSX.Element => (
           element={<PageLogin />}
         />
         <Route path={AppRoute.Offer} element={<Offer />}>
-          <Route path=':idOffer' element= {<Offer offers = {offersList} />} />
+          <Route path=':idOffer' element= {<Offer />} />
         </Route>
         <Route
           path='*'
