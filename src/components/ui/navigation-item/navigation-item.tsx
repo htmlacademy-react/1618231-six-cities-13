@@ -4,7 +4,7 @@ import cn from 'classnames';
 type NavLinkProps = {
   title: string;
   path: string;
-  currentCity: string;
+  currentCity: string | undefined;
   handlerLinkItem: (title: string) => void;
 }
 

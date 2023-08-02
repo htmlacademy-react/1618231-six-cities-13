@@ -9,20 +9,20 @@ import OfferInsideList from '../../components/offer-inside-list/offer-inside-lis
 import ReviewList from '../../components/review-list/review-list';
 import { reviews } from '../../mocks/reviews';
 
+
 const Offer = (): JSX.Element => {
-  // const [reviewsList, setReviewsList] = useState(reviews);
   const param = useParams();
   const euro = String.fromCodePoint(0x020AC);
   const reviewOffer = reviews.find((review) => param.idOffer === review.idOffer);
 
-  const detailedOffer: DetailedOfferType = detailedOffers.find((offer) => param.idOffer === offer.id);
+  const detailedOffer = detailedOffers.find((offer) => param.idOffer === offer.id) as DetailedOfferType;
   const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description } = detailedOffer;
   return (
     <div className="page">
       <Header isAuthorization />
       <main className="page__main page__main--offer">
         <section className="offer">
-          <OfferGallery offer={detailedOffer} />
+          {detailedOffer && <OfferGallery offer={detailedOffer} />}
           <div className="offer__container container">
             <div className="offer__wrapper">
               {isPremium &&
@@ -90,7 +90,7 @@ const Offer = (): JSX.Element => {
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviewOffer?.reviews.length}</span></h2>
-                <ReviewList reviewOffer={reviewOffer} />
+                {reviewOffer && <ReviewList reviewOffer={reviewOffer} />}
                 <CommentForm />
               </section>
             </div>

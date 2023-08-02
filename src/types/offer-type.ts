@@ -29,6 +29,11 @@ export type DetailedOfferType = {
   maxAdults: number;
 };
 
+export type offerState = {
+  title: string | undefined;
+  offers: OfferType[];
+}
+
 export type Host ={
   name: string;
   avatarUrl: string;

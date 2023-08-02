@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NavigationItem from '../../components/ui/navigation-item/navigation-item';
 import { AppRoute } from '../../components/const';
 import Header from '../../components/header/header';
@@ -6,19 +6,26 @@ import { OfferType, Location, Nullable } from '../../types/offer-type';
 import PlaceList from '../../components/place-list/place-list';
 import { Cities } from '../../components/const';
 import Map from '../../components/map/map';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { citySelection, loadOffers } from '../../store/actions';
 
 type PageMainProps = {
   offers: OfferType[];
 }
 
-const cityDefault = 'Paris';
-
 const PageMain = ({ offers }: PageMainProps): JSX.Element => {
-  const [currentCity, setCurrentCity] = useState(cityDefault);
   const [activeCard, setActiveCard] = useState<Nullable<OfferType>>(null);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadOffers(offers));
+  }, [offers, dispatch]);
+
+  const currentCity = useAppSelector((state) => state.title);
+
 
   const handlerMenuItem = (title: string) => {
-    setCurrentCity(title);
+    dispatch(citySelection(title));
   };
   const currentCityOffers = offers.filter((offer) => offer.city.name === currentCity);
   const centerLocation : Location = currentCityOffers[0].city.location;
