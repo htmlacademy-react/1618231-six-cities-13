@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import NavigationItem from '../../components/ui/navigation-item/navigation-item';
-import { AppRoute } from '../../components/const';
+import { AppRoute} from '../../components/const';
 import Header from '../../components/header/header';
 import { OfferType, Location, Nullable } from '../../types/offer-type';
 import PlaceList from '../../components/place-list/place-list';
@@ -8,6 +8,7 @@ import { Cities } from '../../components/const';
 import Map from '../../components/map/map';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { citySelection, loadOffers } from '../../store/actions';
+import PlacesSorting from '../../components/places-sorting/places-sorting';
 
 type PageMainProps = {
   offers: OfferType[];
@@ -15,6 +16,7 @@ type PageMainProps = {
 
 const PageMain = ({ offers }: PageMainProps): JSX.Element => {
   const [activeCard, setActiveCard] = useState<Nullable<OfferType>>(null);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -23,12 +25,12 @@ const PageMain = ({ offers }: PageMainProps): JSX.Element => {
 
   const currentCity = useAppSelector((state) => state.title);
 
-
   const handlerMenuItem = (title: string) => {
     dispatch(citySelection(title));
   };
   const currentCityOffers = offers.filter((offer) => offer.city.name === currentCity);
-  const centerLocation : Location = currentCityOffers[0].city.location;
+  const centerLocation: Location = currentCityOffers[0].city.location;
+
   return (
     <div className="page page--gray page--main">
       <Header isAuthorization />
@@ -53,28 +55,14 @@ const PageMain = ({ offers }: PageMainProps): JSX.Element => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{currentCityOffers.length} places to stay in {currentCity}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
+              <PlacesSorting />
               <div className="cities__places-list places__list tabs__content">
-                <PlaceList offers={currentCityOffers} setActiveCard = {setActiveCard} />
+                <PlaceList offers={currentCityOffers} setActiveCard={setActiveCard} />
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" >
-                <Map currentOffers={currentCityOffers} center= {centerLocation} activeCardId = {activeCard?.id} />
+                <Map currentOffers={currentCityOffers} center={centerLocation} activeCardId={activeCard?.id} />
               </section>
             </div>
           </div>
