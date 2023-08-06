@@ -1,7 +1,3 @@
-export const Setting = {
-  OffersCount: 101,
-};
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -13,7 +9,14 @@ export enum AppRoute {
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
-  Unkhown = 'UNKNOWN'
+  Unkhown = 'UNKNOWN',
+}
+
+export enum SortTypes {
+  Popular = 'Popular',
+  LowToHigh = 'Pice: low to high',
+  HighToLow = 'Pprice: high to low',
+  TopRatedFirst = 'Top rated first',
 }
 
 export enum Cities {
