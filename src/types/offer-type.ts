@@ -32,6 +32,7 @@ export type DetailedOfferType = {
 export type offerState = {
   title: string | undefined;
   offers: OfferType[];
+  sortBy: string;
 }
 
 export type Host ={

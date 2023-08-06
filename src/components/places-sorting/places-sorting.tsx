@@ -1,31 +1,41 @@
 import cn from 'classnames';
-import { FilterTypes } from '../const';
-import { useState } from 'react';
+import { SortTypes } from '../const';
+import { useState, MouseEvent } from 'react';
+import { useAppDispatch } from '../../hooks/hooks';
+import { sortBySelection } from '../../store/actions';
 
 const PlacesSorting = (): JSX.Element => {
-  const [selectedFilter, setselectedFilter] = useState({ type: FilterTypes.popular, isOpen: false });
+  const dispatch = useAppDispatch();
+  const [selectedSort, setSelectedSort] = useState({ type: SortTypes.Popular, isOpen: false });
+  const handlerSortItem = (event: MouseEvent<HTMLLIElement>) => {
+    const { target } = event;
+    const newSortOrder = (target as HTMLLIElement).textContent as SortTypes;
+    dispatch(sortBySelection(newSortOrder));
+    setSelectedSort({ ...selectedSort, type: newSortOrder, isOpen: false });
+  };
+
 
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type" tabIndex={0}
-        onClick={() => setselectedFilter({ ...selectedFilter, isOpen: true })}
+        onClick={() => setSelectedSort({ ...selectedSort, isOpen: true })}
       >
-        {selectedFilter.type}
+        {selectedSort.type}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
       <ul className={cn('places__options places__options--custom',
-        { 'places__options--opened': selectedFilter.isOpen === true })}
+        { 'places__options--opened': selectedSort.isOpen === true })}
       >
-        {Object.values(FilterTypes).map((filter) => (
+        {Object.values(SortTypes).map((value) => (
           <li className="places__option"
             tabIndex={0}
-            key={filter}
-            onClick={(evt) => setselectedFilter({...selectedFilter, isOpen: false, type: evt.target.textContent as FilterTypes}) }
+            key={value}
+            onClick={handlerSortItem}
           >
-            {filter}
+            {value}
           </li>
         ))}
       </ul>
