@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react';
+import { useState} from 'react';
 import NavigationItem from '../../components/ui/navigation-item/navigation-item';
 import { AppRoute } from '../../components/const';
 import Header from '../../components/header/header';
@@ -7,29 +7,20 @@ import PlaceList from '../../components/place-list/place-list';
 import { Cities } from '../../components/const';
 import Map from '../../components/map/map';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { citySelection, loadOffers } from '../../store/actions';
+import { citySelection } from '../../store/actions';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
 import { SortTypes } from '../../components/const';
 
-type PageMainProps = {
-  offers: OfferType[];
-}
 
-const PageMain = ({ offers }: PageMainProps): JSX.Element => {
+const PageMain = (): JSX.Element => {
   const [activeCard, setActiveCard] = useState<Nullable<OfferType>>(null);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(loadOffers(offers));
-  }, [offers, dispatch]);
-
   const currentCity = useAppSelector((state) => state.title);
   const sortBy = useAppSelector((state) => state.sortBy);
-
-  const getCurrentCityOffers = () => offers.filter((offer) => offer.city.name === currentCity);
+  const currentCityOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name.toUpperCase() === currentCity?.toUpperCase()));
 
   const getSortedCityOffers = () => {
-    const currentCityOffers = getCurrentCityOffers();
     if (sortBy === SortTypes.HighToLow) {
       return currentCityOffers.sort((a: OfferType, b: OfferType) => b.price - a.price);
     }
@@ -42,7 +33,7 @@ const PageMain = ({ offers }: PageMainProps): JSX.Element => {
     return currentCityOffers;
   };
   const sortedCityOffers = getSortedCityOffers();
-  const centerLocation: Location = sortedCityOffers[0].city.location;
+  const centerLocation : Location | null = sortedCityOffers ? sortedCityOffers[0].city.location : null;
   const handlerMenuItem = (title: string) => {
     dispatch(citySelection(title));
   };
