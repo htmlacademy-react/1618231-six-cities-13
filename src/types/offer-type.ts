@@ -33,6 +33,7 @@ export type offerState = {
   title: string | undefined;
   offers: OfferType[];
   sortBy: string;
+  isOffersDataLoading: boolean;
 }
 
 export type Host ={

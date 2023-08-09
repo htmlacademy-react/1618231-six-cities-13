@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { loadOffers, citySelection, sortBySelection } from './actions';
+import { loadOffers, citySelection, sortBySelection, setOffersDataLoadingStatus } from './actions';
 import { offerState } from '../types/offer-type';
 
 const initialState: offerState = {
   title: 'Paris',
   offers: [],
   sortBy: 'Popular',
+  isOffersDataLoading: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -19,6 +20,10 @@ const reducer = createReducer(initialState, (builder) => {
 
   builder.addCase(sortBySelection, (state, action) => {
     state.sortBy = action.payload;
+  });
+
+  builder.addCase(setOffersDataLoadingStatus, (state, action) => {
+    state.isOffersDataLoading = action.payload;
   });
 });
 

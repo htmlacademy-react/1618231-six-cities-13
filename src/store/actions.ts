@@ -6,3 +6,4 @@ import { SortTypes } from '../components/const';
 export const loadOffers = createAction<OfferType[]>('offers/load');
 export const citySelection = createAction<string>('city/selection');
 export const sortBySelection = createAction<SortTypes>('sortBy/selection');
+export const setOffersDataLoadingStatus = createAction<boolean>('data/loadingStatus');
