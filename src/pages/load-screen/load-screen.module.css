@@ -14,7 +14,8 @@
   animation-name: load;
   animation-duration: 1s;
   animation-timing-function: ease;
-}
+  animation-iteration-count: infinite;
+  }
 
 
 @keyframes load {
