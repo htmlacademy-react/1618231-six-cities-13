@@ -34,6 +34,8 @@ export type offerState = {
   offers: OfferType[];
   sortBy: string;
   isOffersDataLoading: boolean;
+  autorizationStatys: string;
+  loginSendStatus: string;
 }
 
 export type Host ={

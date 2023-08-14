@@ -28,6 +28,35 @@ export enum Cities {
   Dusseldorf = 'Dusseldorf',
 }
 
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+}
+
+export enum APIActions {
+  DataFetchOffers = 'data/fetchOffers',
+  UserCheckAuth = 'user/checkAuth',
+  UserLogin = 'user/login',
+  UserLogout = 'user/logout',
+}
+
+export enum Actions {
+  loadOffers = 'offers/load',
+  citySelection = 'city/selection',
+  sortBySelection = 'sortBy/selection',
+  setOffersDataLoadingStatus = 'data/loadingStatus',
+  userRequireAuthorization = 'user/requireAutorization',
+}
+
+export enum RequestStatus {
+  Pending = 'pending',
+  Idle = 'idle',
+  Success = 'success',
+  Reject = 'error',
+}
+
+
 export const FIVE_STARS = 5;
 
 export const URL_MARKER_DEFAULT =

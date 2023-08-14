@@ -1,6 +1,6 @@
-import { useState} from 'react';
+import { useEffect, useState} from 'react';
 import NavigationItem from '../../components/ui/navigation-item/navigation-item';
-import { AppRoute } from '../../components/const';
+import { AppRoute, AuthorizationStatus } from '../../components/const';
 import Header from '../../components/header/header';
 import { OfferType, Location, Nullable } from '../../types/offer-type';
 import PlaceList from '../../components/place-list/place-list';
@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { citySelection } from '../../store/actions';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
 import { SortTypes } from '../../components/const';
+import { fetchOffersAction } from '../../store/api-actions';
 
 
 const PageMain = (): JSX.Element => {
@@ -17,6 +18,8 @@ const PageMain = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const currentCity = useAppSelector((state) => state.title);
+  const authStatus = useAppSelector((state) => state.autorizationStatys);
+
   const sortBy = useAppSelector((state) => state.sortBy);
   const currentCityOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name.toUpperCase() === currentCity?.toUpperCase()));
 
@@ -37,9 +40,14 @@ const PageMain = (): JSX.Element => {
   const handlerMenuItem = (title: string) => {
     dispatch(citySelection(title));
   };
+
+  useEffect(() => {
+    dispatch(fetchOffersAction);
+  }, [dispatch]);
+
   return (
     <div className="page page--gray page--main">
-      <Header isAuthorization />
+      <Header isAuthorization = {authStatus === AuthorizationStatus.Auth}/>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -62,8 +70,6 @@ const PageMain = (): JSX.Element => {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{sortedCityOffers.length} places to stay in {currentCity}</b>
               <PlacesSorting />
-
-              {/* <PlacesSorting getSortOffersList={getSortOffersList} /> */}
               <div className="cities__places-list places__list tabs__content">
                 <PlaceList offers={sortedCityOffers} setActiveCard={setActiveCard} />
               </div>
