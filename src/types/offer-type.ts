@@ -30,12 +30,16 @@ export type DetailedOfferType = {
 };
 
 export type offerState = {
+  autorizationStatys: string;
   title: string | undefined;
   offers: OfferType[];
+  nearPlaces: OfferType[];
+  comments: Comment[];
+  detailedOffer: DetailedOfferType;
   sortBy: string;
   isOffersDataLoading: boolean;
-  autorizationStatys: string;
   loginSendStatus: string;
+  loadDetailedOfferStatus: string;
 }
 
 export type Host ={

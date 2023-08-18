@@ -36,7 +36,7 @@ const PageMain = (): JSX.Element => {
     return currentCityOffers;
   };
   const sortedCityOffers = getSortedCityOffers();
-  const centerLocation : Location | null = sortedCityOffers ? sortedCityOffers[0].city.location : null;
+  const centerLocation : Location = sortedCityOffers ? sortedCityOffers[0].city.location : {latitude: 0, longitude: 0, zoom: 0};
   const handlerMenuItem = (title: string) => {
     dispatch(citySelection(title));
   };

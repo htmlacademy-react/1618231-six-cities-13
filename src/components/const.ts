@@ -32,10 +32,15 @@ export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
+  Nearby = '/nearby',
 }
 
 export enum APIActions {
   DataFetchOffers = 'data/fetchOffers',
+  DataFetchDetaildOffer = 'data/fetchDetailedOffer',
+  DataFetchCommentsOffer = 'data/fetchCommentsOffer',
+  DataFetchNearPlaces = 'data/fetchNearPlaces',
   UserCheckAuth = 'user/checkAuth',
   UserLogin = 'user/login',
   UserLogout = 'user/logout',
@@ -43,6 +48,9 @@ export enum APIActions {
 
 export enum Actions {
   loadOffers = 'offers/load',
+  loadNearPlaces = 'nearPlaces/load',
+  loadDetailedOffers = 'detailedOffer/load',
+  loadCommentsOffer = 'commentsOffer/load',
   citySelection = 'city/selection',
   sortBySelection = 'sortBy/selection',
   setOffersDataLoadingStatus = 'data/loadingStatus',

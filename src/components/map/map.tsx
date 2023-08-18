@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   currentOffers: OfferType[];
-  center: Location | null;
+  center: Location;
   activeCardId: string | undefined;
 }
 
