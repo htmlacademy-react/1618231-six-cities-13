@@ -81,7 +81,7 @@ export const magiпNumbers = {
   zero: 0,
   min: 50,
   max: 300
- };
+};
 
 export const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
