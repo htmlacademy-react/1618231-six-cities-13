@@ -19,6 +19,7 @@ const PageMain = (): JSX.Element => {
 
   const currentCity = useAppSelector((state) => state.title);
   const authStatus = useAppSelector((state) => state.autorizationStatys);
+  const userName = useAppSelector((state) => state.userName);
 
   const sortBy = useAppSelector((state) => state.sortBy);
   const currentCityOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name.toUpperCase() === currentCity?.toUpperCase()));
@@ -36,7 +37,7 @@ const PageMain = (): JSX.Element => {
     return currentCityOffers;
   };
   const sortedCityOffers = getSortedCityOffers();
-  const centerLocation : Location = sortedCityOffers ? sortedCityOffers[0].city.location : {latitude: 0, longitude: 0, zoom: 0};
+  const centerLocation : Location = sortedCityOffers[0] ? sortedCityOffers[0].city.location : {latitude: 0, longitude: 0, zoom: 0};
   const handlerMenuItem = (title: string) => {
     dispatch(citySelection(title));
   };
@@ -47,7 +48,7 @@ const PageMain = (): JSX.Element => {
 
   return (
     <div className="page page--gray page--main">
-      <Header isAuthorization = {authStatus === AuthorizationStatus.Auth}/>
+      <Header isAuthorization = {authStatus === AuthorizationStatus.Auth} userName = {userName}/>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">

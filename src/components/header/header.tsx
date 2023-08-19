@@ -6,9 +6,10 @@ import { useAppDispatch } from '../../hooks/hooks';
 
 type HeaderProps = {
   isAuthorization?: boolean;
+  userName: string;
 }
 
-const Header = ({ isAuthorization }: HeaderProps): JSX.Element => {
+const Header = ({ isAuthorization, userName }: HeaderProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const handleSignOutLink = () => {
     dispatch(logoutAction());
@@ -28,7 +29,7 @@ const Header = ({ isAuthorization }: HeaderProps): JSX.Element => {
                   <Link className="header__nav-link header__nav-link--profile" to="#">
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    <span className="header__user-name user__name">{userName}</span>
                     <span className="header__favorite-count">3</span>
                   </Link>
                 </li>}

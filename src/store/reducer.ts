@@ -8,6 +8,8 @@ import {
   loadDetailedOffer,
   loadCommentsOffer,
   loadNearPlaces,
+  setUserName,
+  setUserComment,
 } from './actions';
 import { fetchDetailedOfferAction, loginAction } from './api-actions';
 import { offerState } from '../types/offer-type';
@@ -56,6 +58,18 @@ const initialState: offerState = {
   isOffersDataLoading: false,
   loginSendStatus: RequestStatus.Idle,
   loadDetailedOfferStatus: RequestStatus.Idle,
+  userName: '',
+  comment: {
+    id: '',
+    comment: '',
+    date: '',
+    rating: 0,
+    user: {
+      name: '',
+      avatarUrl: '',
+      isPro: false,
+    },
+  },
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -89,6 +103,14 @@ const reducer = createReducer(initialState, (builder) => {
 
   builder.addCase(requireAuthorization, (state, action) => {
     state.autorizationStatys = action.payload;
+  });
+
+  builder.addCase(setUserName, (state, action) => {
+    state.userName = action.payload;
+  });
+
+  builder.addCase(setUserComment, (state, action) => {
+    state.comment = action.payload;
   });
 
   builder.addCase(loginAction.pending, (state) => {

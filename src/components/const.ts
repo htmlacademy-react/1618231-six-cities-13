@@ -44,6 +44,7 @@ export enum APIActions {
   UserCheckAuth = 'user/checkAuth',
   UserLogin = 'user/login',
   UserLogout = 'user/logout',
+  UserSetComment = 'user/setComment',
 }
 
 export enum Actions {
@@ -55,6 +56,8 @@ export enum Actions {
   sortBySelection = 'sortBy/selection',
   setOffersDataLoadingStatus = 'data/loadingStatus',
   userRequireAuthorization = 'user/requireAutorization',
+  setUserName = 'user/setName',
+  setUuserComment = 'user/setUserComment',
 }
 
 export enum RequestStatus {
@@ -64,8 +67,17 @@ export enum RequestStatus {
   Reject = 'error',
 }
 
+export enum Rating {
+  oneStar = '1',
+  twoStars = '2',
+  threeStars = '3',
+  fourStars = '4',
+  fiveStars = '5',
+}
+
 
 export const FIVE_STARS = 5;
+
 
 export const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';

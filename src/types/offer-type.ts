@@ -40,14 +40,15 @@ export type offerState = {
   isOffersDataLoading: boolean;
   loginSendStatus: string;
   loadDetailedOfferStatus: string;
-}
+  userName: string;
+  comment: Comment;
+};
 
-export type Host ={
+export type Host = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
-}
-
+};
 
 export type City = {
   name: string;
@@ -73,6 +74,13 @@ export type Comment = {
   user: User;
 };
 
+export type ReviewData = {
+  idOffer: string | undefined;
+  review: {
+      comment: string;
+      rating: number;
+  };
+}
 export type User = {
   name: string;
   avatarUrl: string;
@@ -80,8 +88,15 @@ export type User = {
 };
 
 export type Reviews = {
-  idOffer: string;
-  reviews: Comment[];
-}
+  id: string;
+  date: string;
+  user: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  comment: string;
+  rating: number;
+};
 
 export type Nullable<T> = T | null;

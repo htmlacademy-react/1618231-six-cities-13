@@ -1,15 +1,15 @@
-
-
 type InputProps = {
+  className: string;
   type: string;
   name: string;
   placeholder: string;
   value: string;
-  onChange: () => void;
+  id?: string;
+  onChange: (evt: { target: { value: string } }) => void;
 }
 
 const MyInput = (props: InputProps): JSX.Element => (
-  <input className="login__input form__input" {...props}/>
+  <input {...props} />
 );
 
 export default MyInput;

@@ -11,3 +11,5 @@ export const requireAuthorization = createAction<AuthorizationStatus>(Actions.us
 export const loadDetailedOffer = createAction<DetailedOfferType>(Actions.loadDetailedOffers);
 export const loadCommentsOffer = createAction<Comment[]>(Actions.loadCommentsOffer);
 export const loadNearPlaces = createAction<OfferType[]>(Actions.loadNearPlaces);
+export const setUserName = createAction<string>(Actions.setUserName);
+export const setUserComment = createAction<Comment>(Actions.setUuserComment);

@@ -1,10 +1,9 @@
-import {useParams } from 'react-router-dom';
+import {Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-// import { DetailedOfferType } from '../../types/offer-type';
 import CommentForm from '../../components/comment-form/comment-form';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
-import { FIVE_STARS, RequestStatus, AuthorizationStatus } from '../../components/const';
+import { FIVE_STARS, RequestStatus, AuthorizationStatus, AppRoute } from '../../components/const';
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
 import ReviewList from '../../components/review-list/review-list';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
@@ -19,9 +18,16 @@ const Offer = (): JSX.Element => {
   const { idOffer } = useParams();
   const dispatch = useAppDispatch();
   const [activeCard, setActiveCard] = useState<Nullable<OfferType>>(null);
+  const detailedOffer = useAppSelector((state) => state.detailedOffer);
+  const commentsOffer = useAppSelector((state) => state.comments);
+  const userName = useAppSelector((state) => state.userName);
+  const loadDetailedOfferStatus = useAppSelector((state) => state.loadDetailedOfferStatus);
+  const auchStatus = useAppSelector((state) => state.autorizationStatys);
+  const loadOfferStatus = useAppSelector((state) => state.loadDetailedOfferStatus);
+  const euro = String.fromCodePoint(0x020AC);
+  const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description } = detailedOffer;
   const nearPlaces = useAppSelector((state) => state.nearPlaces);
-  const centerLocation : Location = nearPlaces ? nearPlaces[0].city.location : {latitude: 0, longitude: 0, zoom: 0};
-
+  const centerLocation : Location = nearPlaces[0] ? nearPlaces[0].city.location : {latitude: 0, longitude: 0, zoom: 0};
   useEffect(() => {
     if (idOffer) {
       dispatch(fetchDetailedOfferAction(idOffer));
@@ -29,20 +35,14 @@ const Offer = (): JSX.Element => {
     }
   }, [dispatch, idOffer]);
 
-  const detailedOffer = useAppSelector((state) => state.detailedOffer);
-  const commentsOffer = useAppSelector((state) => state.comments);
-  const loadDetailedOfferStatus = useAppSelector((state) => state.loadDetailedOfferStatus);
-  const auchStatus = useAppSelector((state) => state.autorizationStatys);
-  const euro = String.fromCodePoint(0x020AC);
-  const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description } = detailedOffer;
-
 
   return (
     <div className="page">
-      <Header isAuthorization />
+      <Header isAuthorization userName = {userName} />
       {loadDetailedOfferStatus === RequestStatus.Pending && (
         <LoadScreen />
       )}
+      { loadOfferStatus === RequestStatus.Reject && <Navigate to={`/${AppRoute.PageNotFound}`} />}
       {loadDetailedOfferStatus === RequestStatus.Success && detailedOffer && (
         <main className="page__main page__main--offer">
           <section className="offer">
@@ -115,7 +115,7 @@ const Offer = (): JSX.Element => {
                 <section className="offer__reviews reviews">
                   <h2 className="reviews__title">Reviews · <span className="reviews__amount">{commentsOffer?.length}</span></h2>
                   {commentsOffer && <ReviewList reviewsOffer={commentsOffer} />}
-                  {auchStatus === AuthorizationStatus.Auth && <CommentForm />}
+                  {auchStatus === AuthorizationStatus.Auth && <CommentForm idOffer = {idOffer} />}
 
                 </section>
               </div>
