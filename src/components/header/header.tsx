@@ -7,9 +7,10 @@ import { useAppDispatch } from '../../hooks/hooks';
 type HeaderProps = {
   isAuthorization?: boolean;
   userName: string;
+  offerCount: number;
 }
 
-const Header = ({ isAuthorization, userName }: HeaderProps): JSX.Element => {
+const Header = ({ isAuthorization, userName, offerCount }: HeaderProps): JSX.Element => {
   const dispatch = useAppDispatch();
   const handleSignOutLink = () => {
     dispatch(logoutAction());
@@ -26,11 +27,11 @@ const Header = ({ isAuthorization, userName }: HeaderProps): JSX.Element => {
             <ul className="header__nav-list">
               {isAuthorization &&
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to="#">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">{userName}</span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__favorite-count">{offerCount}</span>
                   </Link>
                 </li>}
               <li className="header__nav-item">

@@ -2,6 +2,8 @@ import { OfferType, Nullable } from '../../types/offer-type';
 import { Link} from 'react-router-dom';
 import { AppRoute, FIVE_STARS } from '../const';
 import cn from 'classnames';
+import { useAppDispatch } from '../../hooks/hooks';
+import { changeFavoriteStatus } from '../../store/api-actions';
 
 type PlaceCardProps = {
   data: OfferType;
@@ -11,6 +13,15 @@ type PlaceCardProps = {
 const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
 
   const { isPremium, isFavorite, previewImage, rating, title, id, price } = data;
+  const dispatch = useAppDispatch();
+
+  const handelBookmarkButton = () => {
+    const favoriteStatus = {
+      idOffer: id,
+      status: isFavorite ? 0 : 1,
+    };
+    dispatch(changeFavoriteStatus(favoriteStatus));
+  };
   const euro = String.fromCodePoint(0x020AC);
 
   const offerDetailRef = `${AppRoute.Offer}/${id}`;
@@ -41,6 +52,7 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
             'place-card__bookmark-button button',
             { 'place-card__bookmark-button--active': isFavorite })}
           type="button"
+          onClick = {() =>handelBookmarkButton()}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

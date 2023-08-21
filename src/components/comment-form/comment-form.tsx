@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Rating, magiпNumbers } from '../const';
+import { Rating, magicNumbers } from '../const';
 import MyInput from '../ui/my-input/my-input';
 import { commentAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/hooks';
@@ -59,11 +59,11 @@ const CommentForm = ({ idOffer }: CommentFormProps): JSX.Element => {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        {review.comment.length > magiпNumbers.min && review.comment.length < magiпNumbers.max &&
+        {review.comment.length > magicNumbers.min && review.comment.length < magicNumbers.max &&
           <button className="reviews__submit form__submit button" type="submit">Submit</button>}
-        {review.comment.length >= magiпNumbers.zero && review.comment.length <= magiпNumbers.min &&
+        {review.comment.length >= magicNumbers.zero && review.comment.length <= magicNumbers.min &&
           <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>}
-        {review.comment.length >= magiпNumbers.max &&
+        {review.comment.length >= magicNumbers.max &&
           <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>}
 
       </div>

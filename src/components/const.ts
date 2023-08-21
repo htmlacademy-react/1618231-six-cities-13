@@ -2,6 +2,7 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
+  FavoritesEmpty = '/favorites-empty',
   Offer = '/offer',
   PageNotFound = '*',
 }
@@ -34,10 +35,12 @@ export enum APIRoute {
   Logout = '/logout',
   Comments = '/comments',
   Nearby = '/nearby',
+  Favorite = '/favorite',
 }
 
 export enum APIActions {
   DataFetchOffers = 'data/fetchOffers',
+  DataFetchFavorites = 'data/fetchFavorites',
   DataFetchDetaildOffer = 'data/fetchDetailedOffer',
   DataFetchCommentsOffer = 'data/fetchCommentsOffer',
   DataFetchNearPlaces = 'data/fetchNearPlaces',
@@ -45,6 +48,7 @@ export enum APIActions {
   UserLogin = 'user/login',
   UserLogout = 'user/logout',
   UserSetComment = 'user/setComment',
+  OfferFavoriteStatus = 'offer/favoriteStatus',
 }
 
 export enum Actions {
@@ -52,12 +56,16 @@ export enum Actions {
   loadNearPlaces = 'nearPlaces/load',
   loadDetailedOffers = 'detailedOffer/load',
   loadCommentsOffer = 'commentsOffer/load',
+  loadFavoritesOffers = 'favoritesOffers/load',
+  loadUserData = 'userData/load',
   citySelection = 'city/selection',
   sortBySelection = 'sortBy/selection',
   setOffersDataLoadingStatus = 'data/loadingStatus',
+  setFavoritesDataLoadingStatus = 'data/favoritesLoadingStatus',
   userRequireAuthorization = 'user/requireAutorization',
   setUserName = 'user/setName',
-  setUuserComment = 'user/setUserComment',
+  setUserComment = 'user/setUserComment',
+  setFavoriteOfferStatus = 'data/favoriteOfferStatus',
 }
 
 export enum RequestStatus {
@@ -77,7 +85,7 @@ export enum Rating {
 
 
 export const FIVE_STARS = 5;
-export const magiпNumbers = {
+export const magicNumbers = {
   zero: 0,
   min: 50,
   max: 300

@@ -8,8 +8,11 @@ import {
   loadDetailedOffer,
   loadCommentsOffer,
   loadNearPlaces,
-  setUserName,
   setUserComment,
+  loadUserData,
+  loadFavoritesOffers,
+  setFavoritesDataLoadingStatus,
+  setFavoriteStatus,
 } from './actions';
 import { fetchDetailedOfferAction, loginAction } from './api-actions';
 import { offerState } from '../types/offer-type';
@@ -20,6 +23,7 @@ const initialState: offerState = {
   autorizationStatys: AuthorizationStatus.Unkhown,
   title: 'Paris',
   offers: [],
+  favorites: [],
   nearPlaces: [],
   detailedOffer: {
     id: '',
@@ -56,9 +60,18 @@ const initialState: offerState = {
   comments: [],
   sortBy: 'Popular',
   isOffersDataLoading: false,
+  isFavoriteDataLoading: false,
   loginSendStatus: RequestStatus.Idle,
   loadDetailedOfferStatus: RequestStatus.Idle,
+
   userName: '',
+  userData: {
+    avatarUrl: '',
+    email: '',
+    isPro: false,
+    name: '',
+    token: '',
+  },
   comment: {
     id: '',
     comment: '',
@@ -75,6 +88,10 @@ const initialState: offerState = {
 const reducer = createReducer(initialState, (builder) => {
   builder.addCase(loadOffers, (state, action) => {
     state.offers = action.payload;
+  });
+
+  builder.addCase(loadFavoritesOffers, (state, action) =>{
+    state.favorites = action.payload;
   });
 
   builder.addCase(loadDetailedOffer, (state, action) => {
@@ -101,12 +118,20 @@ const reducer = createReducer(initialState, (builder) => {
     state.isOffersDataLoading = action.payload;
   });
 
+  builder.addCase(setFavoritesDataLoadingStatus, (state, action) => {
+    state.isFavoriteDataLoading = action.payload;
+  });
+
   builder.addCase(requireAuthorization, (state, action) => {
     state.autorizationStatys = action.payload;
   });
 
-  builder.addCase(setUserName, (state, action) => {
-    state.userName = action.payload;
+  builder.addCase(loadUserData, (state, action) => {
+    state.userData = action.payload;
+  });
+
+  builder.addCase(setFavoriteStatus, (state, action) => {
+    state.detailedOffer.isFavorite = action.payload;
   });
 
   builder.addCase(setUserComment, (state, action) => {

@@ -1,3 +1,5 @@
+import { AuthUserData } from './user-data';
+
 export type OfferType = {
   id: string;
   title: string | null;
@@ -33,15 +35,18 @@ export type offerState = {
   autorizationStatys: string;
   title: string | undefined;
   offers: OfferType[];
+  favorites: OfferType[];
   nearPlaces: OfferType[];
   comments: Comment[];
   detailedOffer: DetailedOfferType;
   sortBy: string;
   isOffersDataLoading: boolean;
+  isFavoriteDataLoading: boolean;
   loginSendStatus: string;
   loadDetailedOfferStatus: string;
   userName: string;
   comment: Comment;
+  userData: AuthUserData;
 };
 
 export type Host = {
@@ -98,5 +103,10 @@ export type Reviews = {
   comment: string;
   rating: number;
 };
+
+export type FavoriteStatus = {
+  idOffer: string;
+  status: number;
+}
 
 export type Nullable<T> = T | null;

@@ -6,6 +6,7 @@ import {
   OfferType,
   Comment,
   ReviewData,
+  FavoriteStatus,
 } from '../types/offer-type';
 import {
   loadOffers,
@@ -15,10 +16,14 @@ import {
   loadCommentsOffer,
   loadNearPlaces,
   setUserComment,
+  loadUserData,
+  setFavoritesDataLoadingStatus,
+  loadFavoritesOffers,
+  setFavoriteStatus,
 } from './actions';
 import { APIRoute, APIActions, AuthorizationStatus } from '../components/const';
 import { AuthData } from '../types/auth-data';
-import { UserData } from '../types/user-data';
+import { UserData, AuthUserData } from '../types/user-data';
 import { dropToken, saveToken } from '../service/token';
 
 export const fetchOffersAction = createAsyncThunk<
@@ -34,6 +39,21 @@ export const fetchOffersAction = createAsyncThunk<
   const { data } = await api.get<OfferType[]>(APIRoute.Offers);
   dispatch(setOffersDataLoadingStatus(false));
   dispatch(loadOffers(data));
+});
+
+export const fetchFavoritesOffers = createAsyncThunk<
+  void,
+  undefined,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(APIActions.DataFetchFavorites, async (_arg, { dispatch, extra: api }) => {
+  dispatch(setFavoritesDataLoadingStatus(true));
+  const { data } = await api.get<OfferType[]>(APIRoute.Favorite);
+  dispatch(setFavoritesDataLoadingStatus(false));
+  dispatch(loadFavoritesOffers(data));
 });
 
 export const fetchNearPlaces = createAsyncThunk<
@@ -97,8 +117,9 @@ export const checkAuthAction = createAsyncThunk<
   }
 >(APIActions.UserCheckAuth, async (_arg, { dispatch, extra: api }) => {
   try {
-    await api.get(APIRoute.Login);
+    const { data } = await api.get<AuthUserData>(APIRoute.Login);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(loadUserData(data));
   } catch {
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   }
@@ -136,6 +157,24 @@ export const commentAction = createAsyncThunk<
   );
   dispatch(setUserComment(data));
 });
+
+export const changeFavoriteStatus = createAsyncThunk<
+  void,
+  FavoriteStatus,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  APIActions.OfferFavoriteStatus,
+  async (favoriteStatus, { dispatch, extra: api }) => {
+    const { data } = await api.post<DetailedOfferType>(
+      `${APIRoute.Favorite}/${favoriteStatus.idOffer}/${favoriteStatus.status}`
+    );
+    dispatch(setFavoriteStatus(data.isFavorite));
+  }
+);
 
 export const logoutAction = createAsyncThunk<
   void,
