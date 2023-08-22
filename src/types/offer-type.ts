@@ -44,7 +44,6 @@ export type offerState = {
   isFavoriteDataLoading: boolean;
   loginSendStatus: string;
   loadDetailedOfferStatus: string;
-  userName: string;
   comment: Comment;
   userData: AuthUserData;
 };

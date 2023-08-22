@@ -52,7 +52,7 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
             'place-card__bookmark-button button',
             { 'place-card__bookmark-button--active': isFavorite })}
           type="button"
-          onClick = {() =>handelBookmarkButton()}
+          onClick = {handelBookmarkButton}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

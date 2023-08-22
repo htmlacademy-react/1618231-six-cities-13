@@ -47,7 +47,7 @@ const PageLogin = (): JSX.Element => {
                   value={userData.email}
                   onChange={(e: { target: { value: string } }) => setUserData({ ...userData, email: e.target.value })}
                   name='email'
-                  type='emeil'
+                  type='email'
                   placeholder='Email'
                 />
               </div>

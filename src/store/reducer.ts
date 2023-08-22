@@ -63,8 +63,6 @@ const initialState: offerState = {
   isFavoriteDataLoading: false,
   loginSendStatus: RequestStatus.Idle,
   loadDetailedOfferStatus: RequestStatus.Idle,
-
-  userName: '',
   userData: {
     avatarUrl: '',
     email: '',
