@@ -2,8 +2,9 @@ import { OfferType, Nullable } from '../../types/offer-type';
 import { Link} from 'react-router-dom';
 import { AppRoute, FIVE_STARS } from '../const';
 import cn from 'classnames';
-import { useAppDispatch } from '../../hooks/hooks';
-import { changeFavoriteStatus } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { changeFavoriteStatus, fetchFavoritesOffers } from '../../store/api-actions';
+import {useState} from 'react';
 
 type PlaceCardProps = {
   data: OfferType;
@@ -11,25 +12,29 @@ type PlaceCardProps = {
 }
 
 const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
-
-  const { isPremium, isFavorite, previewImage, rating, title, id, price } = data;
+  const [offer, setOffer] = useState(data);
+  const { isPremium, isFavorite, previewImage, rating, title, id, price } = offer;
   const dispatch = useAppDispatch();
 
   const handelBookmarkButton = () => {
+    setOffer({...offer, isFavorite: !isFavorite});
     const favoriteStatus = {
       idOffer: id,
-      status: isFavorite ? 0 : 1,
+      status: Number(!isFavorite),
     };
     dispatch(changeFavoriteStatus(favoriteStatus));
+
+    dispatch(fetchFavoritesOffers());
   };
   const euro = String.fromCodePoint(0x020AC);
 
   const offerDetailRef = `${AppRoute.Offer}/${id}`;
 
+
   return (
     <article
       className="cities__card place-card"
-      onMouseEnter={() => setActiveCard(data)}
+      onMouseEnter={() => setActiveCard(offer)}
       onMouseLeave={() => setActiveCard(null)}
     >
       {isPremium ?

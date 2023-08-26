@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Rating, magicNumbers } from '../const';
 import MyInput from '../ui/my-input/my-input';
-import { commentAction } from '../../store/api-actions';
+import { commentAction, fetchCommentsOfferAction} from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/hooks';
 
 type CommentFormProps = {
@@ -13,13 +13,15 @@ const CommentForm = ({ idOffer }: CommentFormProps): JSX.Element => {
   const [review, setReview] = useState({ comment: '', rating: 0 });
   const dispatch = useAppDispatch();
   const isDisabled = !((review.comment.length > magicNumbers.min && review.comment.length < magicNumbers.max));
-
+  const id = idOffer as string;
 
   const hendleFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const reviewData = { idOffer: idOffer, review: review };
     dispatch(commentAction(reviewData));
     setReview({ comment: '', rating: 0 });
+    dispatch(fetchCommentsOfferAction(id));
+
   };
   return (
     <form className="reviews__form form"
