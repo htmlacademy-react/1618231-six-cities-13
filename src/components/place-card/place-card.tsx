@@ -2,7 +2,7 @@ import { OfferType, Nullable } from '../../types/offer-type';
 import { Link} from 'react-router-dom';
 import { AppRoute, FIVE_STARS } from '../const';
 import cn from 'classnames';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch } from '../../hooks/hooks';
 import { changeFavoriteStatus, fetchFavoritesOffers } from '../../store/api-actions';
 import {useState} from 'react';
 

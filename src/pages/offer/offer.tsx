@@ -12,6 +12,7 @@ import LoadScreen from '../load-screen/load-screen';
 import NearPlaces from '../../components/near-places/near-places';
 import {Nullable, OfferType, Location } from '../../types/offer-type';
 import Map from '../../components/map/map';
+import cn from 'classnames';
 
 
 const Offer = (): JSX.Element => {
@@ -20,12 +21,11 @@ const Offer = (): JSX.Element => {
   const [activeCard, setActiveCard] = useState<Nullable<OfferType>>(null);
   const detailedOffer = useAppSelector((state) => state.detailedOffer);
   const commentsOffer = useAppSelector((state) => state.comments);
-  const userName = useAppSelector((state) => state.userName);
   const loadDetailedOfferStatus = useAppSelector((state) => state.loadDetailedOfferStatus);
   const auchStatus = useAppSelector((state) => state.autorizationStatys);
   const loadOfferStatus = useAppSelector((state) => state.loadDetailedOfferStatus);
   const euro = String.fromCodePoint(0x020AC);
-  const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description } = detailedOffer;
+  const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, isFavorite } = detailedOffer;
   const nearPlaces = useAppSelector((state) => state.nearPlaces);
   const centerLocation : Location = nearPlaces[0] ? nearPlaces[0].city.location : {latitude: 0, longitude: 0, zoom: 0};
   useEffect(() => {
@@ -38,7 +38,7 @@ const Offer = (): JSX.Element => {
 
   return (
     <div className="page">
-      <Header isAuthorization userName = {userName} />
+      <Header />
       {loadDetailedOfferStatus === RequestStatus.Pending && (
         <LoadScreen />
       )}
@@ -57,7 +57,11 @@ const Offer = (): JSX.Element => {
                   <h1 className="offer__name">
                     {title}
                   </h1>
-                  <button className="offer__bookmark-button button" type="button">
+                  <button className={cn('offer__bookmark-button button',
+                    {'offer__bookmark-button--active': isFavorite}
+                  )}
+                  type="button"
+                  >
                     <svg className="offer__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>

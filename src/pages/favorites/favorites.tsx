@@ -7,14 +7,13 @@ import { AppRoute, AuthorizationStatus } from '../../components/const';
 const Favorites = (): JSX.Element => {
 
   const authStatus = useAppSelector((state) => state.autorizationStatys);
-  const userName = useAppSelector((state) => state.userData.name);
   const favoritesList = useAppSelector((state) => state.favorites);
 
   return (
     <div className="page">
       {authStatus === AuthorizationStatus.NoAuth && <Navigate to={AppRoute.Main} />}
       {favoritesList.length === 0 && <Navigate to={AppRoute.FavoritesEmpty} />}
-      <Header isAuthorization = {authStatus === AuthorizationStatus.Auth} userName = {userName} offerCount = {favoritesList.length} />
+      <Header />
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
