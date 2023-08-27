@@ -33,7 +33,6 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
     }
   };
 
-
   const euro = String.fromCodePoint(0x020AC);
 
   const offerDetailRef = `${AppRoute.Offer}/${id}`;
@@ -88,6 +87,5 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
     </article>
   );
 };
-
 
 export default PlaceCard;

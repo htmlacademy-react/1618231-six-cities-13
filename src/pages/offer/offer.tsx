@@ -1,5 +1,5 @@
-import {Navigate, useParams } from 'react-router-dom';
-import { useEffect} from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import CommentForm from '../../components/comment-form/comment-form';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
@@ -7,10 +7,10 @@ import { FIVE_STARS, RequestStatus, AuthorizationStatus, AppRoute, COUNT } from 
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
 import ReviewList from '../../components/review-list/review-list';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { fetchDetailedOfferAction, fetchCommentsOfferAction, fetchNearPlaces } from '../../store/api-actions';
+import { fetchDetailedOfferAction, fetchCommentsOfferAction, fetchNearPlaces, changeFavoriteStatus, fetchFavoritesOffers } from '../../store/api-actions';
 import LoadScreen from '../load-screen/load-screen';
 import NearPlaces from '../../components/near-places/near-places';
-import {Location } from '../../types/offer-type';
+import { Location } from '../../types/offer-type';
 import Map from '../../components/map/map';
 import cn from 'classnames';
 
@@ -24,9 +24,9 @@ const Offer = (): JSX.Element => {
   const auchStatus = useAppSelector((state) => state.autorizationStatys);
   const loadOfferStatus = useAppSelector((state) => state.loadDetailedOfferStatus);
   const euro = String.fromCodePoint(0x020AC);
-  const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, isFavorite } = detailedOffer;
   const nearPlaces = useAppSelector((state) => state.nearPlaces);
-  const centerLocation : Location = nearPlaces[0] ? nearPlaces[0].city.location : {latitude: 0, longitude: 0, zoom: 0};
+  const centerLocation: Location = nearPlaces[0] ? nearPlaces[0].city.location : { latitude: 0, longitude: 0, zoom: 0 };
+  const authStatus = useAppSelector((state) => state.autorizationStatys);
   useEffect(() => {
     if (idOffer) {
       dispatch(fetchDetailedOfferAction(idOffer));
@@ -35,9 +35,25 @@ const Offer = (): JSX.Element => {
     }
   }, [dispatch, idOffer]);
 
+  const [offer, setOffer] = useState(detailedOffer);
+  const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, isFavorite, id } = offer;
+
+
   const start = Math.floor(Math.random() * (nearPlaces.length - COUNT));
   const end = start + COUNT;
-  const randomNearPlaces = nearPlaces.slice(start, end);
+  const randomNearPlaces = nearPlaces.length ? nearPlaces.slice(start, end) : [];
+
+  const handelBookmarkButton = () => {
+    if (authStatus === AuthorizationStatus.Auth) {
+      setOffer({ ...offer, isFavorite: !isFavorite });
+      const favoriteStatus = {
+        idOffer: id,
+        status: Number(!isFavorite)
+      };
+      dispatch(changeFavoriteStatus(favoriteStatus));
+      dispatch(fetchFavoritesOffers());
+    }
+  };
 
   return (
     <div className="page">
@@ -45,11 +61,11 @@ const Offer = (): JSX.Element => {
       {loadDetailedOfferStatus === RequestStatus.Pending && (
         <LoadScreen />
       )}
-      { loadOfferStatus === RequestStatus.Reject && <Navigate to={`/${AppRoute.PageNotFound}`} />}
-      {loadDetailedOfferStatus === RequestStatus.Success && detailedOffer && (
+      {loadOfferStatus === RequestStatus.Reject && <Navigate to={`/${AppRoute.PageNotFound}`} />}
+      {loadDetailedOfferStatus === RequestStatus.Success && offer && (
         <main className="page__main page__main--offer">
           <section className="offer">
-            {detailedOffer && <OfferGallery offer={detailedOffer} />}
+            {offer && <OfferGallery offer={offer} />}
             <div className="offer__container container">
               <div className="offer__wrapper">
                 {isPremium &&
@@ -61,9 +77,10 @@ const Offer = (): JSX.Element => {
                     {title}
                   </h1>
                   <button className={cn('offer__bookmark-button button',
-                    {'offer__bookmark-button--active': isFavorite}
+                    { 'offer__bookmark-button--active': isFavorite }
                   )}
                   type="button"
+                  onClick={handelBookmarkButton}
                   >
                     <svg className="offer__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
@@ -122,17 +139,21 @@ const Offer = (): JSX.Element => {
                 <section className="offer__reviews reviews">
                   <h2 className="reviews__title">Reviews · <span className="reviews__amount">{commentsOffer?.length}</span></h2>
                   {commentsOffer && <ReviewList reviewsOffer={commentsOffer} />}
-                  {auchStatus === AuthorizationStatus.Auth && <CommentForm idOffer = {idOffer} />}
+                  {auchStatus === AuthorizationStatus.Auth && <CommentForm idOffer={idOffer} />}
 
                 </section>
               </div>
             </div>
             <section className="offer__map map">
-              <Map currentOffers = {randomNearPlaces} center = {centerLocation} detailedOffer = {detailedOffer} />
+              {randomNearPlaces.length &&
+                <Map currentOffers={randomNearPlaces} center={centerLocation} detailedOffer={detailedOffer} />}
+              {!randomNearPlaces.length &&
+                <section className="offer__map map"></section>}
             </section>
           </section>
           <div className="container">
-            <NearPlaces nearPlaces = {randomNearPlaces} />
+            {randomNearPlaces.length && <NearPlaces nearPlaces={randomNearPlaces} />}
+            {!randomNearPlaces.length && <h2 className="near-places__title">No places to stay available</h2>}
           </div>
         </main>
       )}
