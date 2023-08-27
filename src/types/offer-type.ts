@@ -1,3 +1,5 @@
+import { AuthUserData } from './user-data';
+
 export type OfferType = {
   id: string;
   title: string | null;
@@ -30,20 +32,27 @@ export type DetailedOfferType = {
 };
 
 export type offerState = {
+  autorizationStatys: string;
   title: string | undefined;
   offers: OfferType[];
+  favorites: OfferType[];
+  nearPlaces: OfferType[];
+  comments: Comment[];
+  detailedOffer: DetailedOfferType;
   sortBy: string;
   isOffersDataLoading: boolean;
-  autorizationStatys: string;
+  isFavoriteDataLoading: boolean;
   loginSendStatus: string;
-}
+  loadDetailedOfferStatus: string;
+  comment: Comment;
+  userData: AuthUserData;
+};
 
-export type Host ={
+export type Host = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
-}
-
+};
 
 export type City = {
   name: string;
@@ -69,6 +78,13 @@ export type Comment = {
   user: User;
 };
 
+export type ReviewData = {
+  idOffer: string | undefined;
+  review: {
+      comment: string;
+      rating: number;
+  };
+}
 export type User = {
   name: string;
   avatarUrl: string;
@@ -76,8 +92,20 @@ export type User = {
 };
 
 export type Reviews = {
+  id: string;
+  date: string;
+  user: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  comment: string;
+  rating: number;
+};
+
+export type FavoriteStatus = {
   idOffer: string;
-  reviews: Comment[];
+  status: number;
 }
 
 export type Nullable<T> = T | null;

@@ -1,5 +1,5 @@
 import { Comment } from '../../types/offer-type';
-import { FIVE_STARS } from '../const';
+import { FIVE_STARS, months } from '../const';
 
 
 type ReviewItemProps = {
@@ -8,6 +8,9 @@ type ReviewItemProps = {
 
 const ReviewItem = ({ review }: ReviewItemProps) => {
   const {user, rating, comment, date} = review;
+  const reviewDate = new Date(date);
+  const formatData = `${months[reviewDate.getMonth()]} ${reviewDate.getFullYear()} г`;
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -28,7 +31,7 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">{date}</time>
+        <time className="reviews__time" dateTime="2019-04-24">{formatData}</time>
       </div>
     </li>
   );

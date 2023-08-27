@@ -2,20 +2,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from './const';
 import PageMain from '../pages/page-main/page-main';
 import Favorites from '../pages/favorites/favorites';
+import FavoritesEmpty from '../pages/favorites-empty/favorites-empty';
 import PageLogin from '../pages/page-login/page-login';
 import Offer from '../pages/offer/offer';
 import PageNotFound from '../pages/no-found-page/page-not-found';
 import PrivateRoute from './privat-route/privat-route';
-import { OfferType } from '../types/offer-type';
 import { useAppSelector } from '../hooks/hooks';
 import LoadScreen from '../pages/load-screen/load-screen';
 
-
-type AppProps = {
-  offersList: OfferType[];
-}
-
-const App = ({ offersList }: AppProps): JSX.Element => {
+const App = (): JSX.Element => {
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
   if (isOffersDataLoading) {
@@ -37,7 +32,7 @@ const App = ({ offersList }: AppProps): JSX.Element => {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <Favorites offers={offersList} />
+                <Favorites/>
               </PrivateRoute>
             }
           />
@@ -48,6 +43,12 @@ const App = ({ offersList }: AppProps): JSX.Element => {
           <Route path={AppRoute.Offer} element={<Offer />}>
             <Route path=':idOffer' element={<Offer />} />
           </Route>
+
+          <Route
+            path={AppRoute.FavoritesEmpty}
+            element={<FavoritesEmpty />}
+          />
+
           <Route
             path='*'
             element={<PageNotFound />}

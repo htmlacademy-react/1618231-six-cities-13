@@ -2,6 +2,9 @@ import { OfferType, Nullable } from '../../types/offer-type';
 import { Link} from 'react-router-dom';
 import { AppRoute, FIVE_STARS } from '../const';
 import cn from 'classnames';
+import { useAppDispatch } from '../../hooks/hooks';
+import { changeFavoriteStatus, fetchFavoritesOffers } from '../../store/api-actions';
+import {useState} from 'react';
 
 type PlaceCardProps = {
   data: OfferType;
@@ -9,16 +12,29 @@ type PlaceCardProps = {
 }
 
 const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
+  const [offer, setOffer] = useState(data);
+  const { isPremium, isFavorite, previewImage, rating, title, id, price } = offer;
+  const dispatch = useAppDispatch();
 
-  const { isPremium, isFavorite, previewImage, rating, title, id, price } = data;
+  const handelBookmarkButton = () => {
+    setOffer({...offer, isFavorite: !isFavorite});
+    const favoriteStatus = {
+      idOffer: id,
+      status: Number(!isFavorite),
+    };
+    dispatch(changeFavoriteStatus(favoriteStatus));
+
+    dispatch(fetchFavoritesOffers());
+  };
   const euro = String.fromCodePoint(0x020AC);
 
   const offerDetailRef = `${AppRoute.Offer}/${id}`;
 
+
   return (
     <article
       className="cities__card place-card"
-      onMouseEnter={() => setActiveCard(data)}
+      onMouseEnter={() => setActiveCard(offer)}
       onMouseLeave={() => setActiveCard(null)}
     >
       {isPremium ?
@@ -41,6 +57,7 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
             'place-card__bookmark-button button',
             { 'place-card__bookmark-button--active': isFavorite })}
           type="button"
+          onClick = {handelBookmarkButton}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

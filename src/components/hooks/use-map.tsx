@@ -15,6 +15,7 @@ const useMap = (mapRef: MutableRefObject<HTMLElement | null>, center : Location)
           lng: center.longitude
         },
         zoom: center.zoom,
+        scrollWheelZoom: false,
       });
 
       const layer = new TileLayer(

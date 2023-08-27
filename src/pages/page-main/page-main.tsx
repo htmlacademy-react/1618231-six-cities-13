@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { citySelection } from '../../store/actions';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
 import { SortTypes } from '../../components/const';
-import { fetchOffersAction } from '../../store/api-actions';
+import { fetchOffersAction, checkAuthAction, fetchFavoritesOffers } from '../../store/api-actions';
 
 
 const PageMain = (): JSX.Element => {
@@ -19,6 +19,8 @@ const PageMain = (): JSX.Element => {
 
   const currentCity = useAppSelector((state) => state.title);
   const authStatus = useAppSelector((state) => state.autorizationStatys);
+  const userName = useAppSelector((state) => state.userData.name);
+  const favoritesList = useAppSelector((state) => state.favorites);
 
   const sortBy = useAppSelector((state) => state.sortBy);
   const currentCityOffers = useAppSelector((state) => state.offers.filter((offer) => offer.city.name.toUpperCase() === currentCity?.toUpperCase()));
@@ -36,18 +38,20 @@ const PageMain = (): JSX.Element => {
     return currentCityOffers;
   };
   const sortedCityOffers = getSortedCityOffers();
-  const centerLocation : Location | null = sortedCityOffers ? sortedCityOffers[0].city.location : null;
+  const centerLocation : Location = sortedCityOffers[0] ? sortedCityOffers[0].city.location : {latitude: 0, longitude: 0, zoom: 0};
   const handlerMenuItem = (title: string) => {
     dispatch(citySelection(title));
   };
 
   useEffect(() => {
     dispatch(fetchOffersAction);
+    dispatch(checkAuthAction());
+    dispatch(fetchFavoritesOffers());
   }, [dispatch]);
 
   return (
     <div className="page page--gray page--main">
-      <Header isAuthorization = {authStatus === AuthorizationStatus.Auth}/>
+      <Header isAuthorization = {authStatus === AuthorizationStatus.Auth} userName = {userName} offerCount = {favoritesList.length}/>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
