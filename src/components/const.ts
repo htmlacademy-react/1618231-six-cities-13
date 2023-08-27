@@ -91,6 +91,8 @@ export const magicNumbers = {
   max: 300
 };
 
+export const COUNT = 3;
+
 export const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
 export const URL_MARKER_DEFAULT =

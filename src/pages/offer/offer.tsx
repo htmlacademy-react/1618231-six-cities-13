@@ -1,16 +1,16 @@
 import {Navigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import CommentForm from '../../components/comment-form/comment-form';
 import Header from '../../components/header/header';
 import OfferGallery from '../../components/offer-gallery/offer-gallery';
-import { FIVE_STARS, RequestStatus, AuthorizationStatus, AppRoute } from '../../components/const';
+import { FIVE_STARS, RequestStatus, AuthorizationStatus, AppRoute, COUNT } from '../../components/const';
 import OfferInsideList from '../../components/offer-inside-list/offer-inside-list';
 import ReviewList from '../../components/review-list/review-list';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { fetchDetailedOfferAction, fetchCommentsOfferAction } from '../../store/api-actions';
+import { fetchDetailedOfferAction, fetchCommentsOfferAction, fetchNearPlaces } from '../../store/api-actions';
 import LoadScreen from '../load-screen/load-screen';
 import NearPlaces from '../../components/near-places/near-places';
-import {Nullable, OfferType, Location } from '../../types/offer-type';
+import {Location } from '../../types/offer-type';
 import Map from '../../components/map/map';
 import cn from 'classnames';
 
@@ -18,7 +18,6 @@ import cn from 'classnames';
 const Offer = (): JSX.Element => {
   const { idOffer } = useParams();
   const dispatch = useAppDispatch();
-  const [activeCard, setActiveCard] = useState<Nullable<OfferType>>(null);
   const detailedOffer = useAppSelector((state) => state.detailedOffer);
   const commentsOffer = useAppSelector((state) => state.comments);
   const loadDetailedOfferStatus = useAppSelector((state) => state.loadDetailedOfferStatus);
@@ -32,9 +31,13 @@ const Offer = (): JSX.Element => {
     if (idOffer) {
       dispatch(fetchDetailedOfferAction(idOffer));
       dispatch(fetchCommentsOfferAction(idOffer));
+      dispatch(fetchNearPlaces(idOffer));
     }
   }, [dispatch, idOffer]);
 
+  const start = Math.floor(Math.random() * (nearPlaces.length - COUNT));
+  const end = start + COUNT;
+  const randomNearPlaces = nearPlaces.slice(start, end);
 
   return (
     <div className="page">
@@ -125,11 +128,11 @@ const Offer = (): JSX.Element => {
               </div>
             </div>
             <section className="offer__map map">
-              <Map currentOffers = {nearPlaces} center = {centerLocation} activeCardId={activeCard?.id} />
+              <Map currentOffers = {randomNearPlaces} center = {centerLocation} />
             </section>
           </section>
           <div className="container">
-            <NearPlaces idOffer={idOffer} setActiveCard = {setActiveCard} />
+            <NearPlaces nearPlaces = {randomNearPlaces} />
           </div>
         </main>
       )}

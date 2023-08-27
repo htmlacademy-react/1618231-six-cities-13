@@ -40,7 +40,7 @@ export type offerState = {
   comments: Comment[];
   detailedOffer: DetailedOfferType;
   sortBy: string;
-  isOffersDataLoading: boolean;
+  isOffersDataLoading: string;
   isFavoriteDataLoading: boolean;
   loginSendStatus: string;
   loadDetailedOfferStatus: string;

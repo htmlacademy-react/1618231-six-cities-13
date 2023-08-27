@@ -8,7 +8,7 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   currentOffers: OfferType[];
   center: Location;
-  activeCardId: string | undefined;
+  activeCardId?: string | undefined;
 }
 
 const defaultCustomIcon = new Icon({
