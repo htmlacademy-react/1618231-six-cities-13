@@ -128,7 +128,7 @@ const Offer = (): JSX.Element => {
               </div>
             </div>
             <section className="offer__map map">
-              <Map currentOffers = {randomNearPlaces} center = {centerLocation} />
+              <Map currentOffers = {randomNearPlaces} center = {centerLocation} detailedOffer = {detailedOffer} />
             </section>
           </section>
           <div className="container">
