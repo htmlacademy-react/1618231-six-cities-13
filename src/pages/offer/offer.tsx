@@ -27,6 +27,7 @@ const Offer = (): JSX.Element => {
   const nearPlaces = useAppSelector((state) => state.nearPlaces);
   const centerLocation: Location = nearPlaces[0] ? nearPlaces[0].city.location : { latitude: 0, longitude: 0, zoom: 0 };
   const authStatus = useAppSelector((state) => state.autorizationStatys);
+
   useEffect(() => {
     if (idOffer) {
       dispatch(fetchDetailedOfferAction(idOffer));
@@ -138,7 +139,7 @@ const Offer = (): JSX.Element => {
                 </div>
                 <section className="offer__reviews reviews">
                   <h2 className="reviews__title">Reviews · <span className="reviews__amount">{commentsOffer?.length}</span></h2>
-                  {commentsOffer && <ReviewList reviewsOffer={commentsOffer} />}
+                  {commentsOffer.length && <ReviewList reviewsOffer={commentsOffer} />}
                   {auchStatus === AuthorizationStatus.Auth && <CommentForm idOffer={idOffer} />}
 
                 </section>
