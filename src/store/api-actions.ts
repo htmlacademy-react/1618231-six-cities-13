@@ -11,7 +11,6 @@ import {
 import {
   loadOffers,
   requireAuthorization,
-  setOffersDataLoadingStatus,
   loadDetailedOffer,
   loadCommentsOffer,
   loadNearPlaces,
@@ -35,9 +34,9 @@ export const fetchOffersAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >(APIActions.DataFetchOffers, async (_arg, { dispatch, extra: api }) => {
-  dispatch(setOffersDataLoadingStatus(true));
+  // dispatch(setOffersDataLoadingStatus(true));
   const { data } = await api.get<OfferType[]>(APIRoute.Offers);
-  dispatch(setOffersDataLoadingStatus(false));
+  // dispatch(setOffersDataLoadingStatus(false));
   dispatch(loadOffers(data));
 });
 

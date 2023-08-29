@@ -7,56 +7,45 @@ import PageLogin from '../pages/page-login/page-login';
 import Offer from '../pages/offer/offer';
 import PageNotFound from '../pages/no-found-page/page-not-found';
 import PrivateRoute from './privat-route/privat-route';
-import { useAppSelector } from '../hooks/hooks';
-import LoadScreen from '../pages/load-screen/load-screen';
 
-const App = (): JSX.Element => {
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-
-  if (isOffersDataLoading) {
-    return (
-      <LoadScreen />
-    );
-  }
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={AppRoute.Main}>
-          <Route
-            index
-            element={<PageMain />}
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute
-                authorizationStatus={AuthorizationStatus.Auth}
-              >
-                <Favorites/>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Login}
-            element={<PageLogin />}
-          />
-          <Route path={AppRoute.Offer} element={<Offer />}>
-            <Route path=':idOffer' element={<Offer />} />
-          </Route>
-
-          <Route
-            path={AppRoute.FavoritesEmpty}
-            element={<FavoritesEmpty />}
-          />
-
-          <Route
-            path='*'
-            element={<PageNotFound />}
-          />
+const App = (): JSX.Element => (
+  <BrowserRouter>
+    <Routes>
+      <Route path={AppRoute.Main}>
+        <Route
+          index
+          element={<PageMain />}
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute
+              authorizationStatus={AuthorizationStatus.Auth}
+            >
+              <Favorites />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Login}
+          element={<PageLogin />}
+        />
+        <Route path={AppRoute.Offer} element={<Offer />}>
+          <Route path=':idOffer' element={<Offer />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
-  );
-};
+
+        <Route
+          path={AppRoute.FavoritesEmpty}
+          element={<FavoritesEmpty />}
+        />
+
+        <Route
+          path='*'
+          element={<PageNotFound />}
+        />
+      </Route>
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;

@@ -1,35 +1,42 @@
 import { OfferType, Nullable } from '../../types/offer-type';
-import { Link} from 'react-router-dom';
-import { AppRoute, FIVE_STARS } from '../const';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, FIVE_STARS } from '../const';
 import cn from 'classnames';
-import { useAppDispatch } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { changeFavoriteStatus, fetchFavoritesOffers } from '../../store/api-actions';
-import {useState} from 'react';
+import { useState } from 'react';
 
 type PlaceCardProps = {
   data: OfferType;
-  setActiveCard: (offer: Nullable<OfferType>) => void;
+  setActiveCard?: (offer: Nullable<OfferType>) => void;
 }
 
 const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
   const [offer, setOffer] = useState(data);
   const { isPremium, isFavorite, previewImage, rating, title, id, price } = offer;
   const dispatch = useAppDispatch();
+  const authStatus = useAppSelector((state) => state.autorizationStatys);
+  const navigate = useNavigate();
 
   const handelBookmarkButton = () => {
-    setOffer({...offer, isFavorite: !isFavorite});
-    const favoriteStatus = {
-      idOffer: id,
-      status: Number(!isFavorite),
-    };
-    dispatch(changeFavoriteStatus(favoriteStatus));
 
-    dispatch(fetchFavoritesOffers());
+    if (authStatus === AuthorizationStatus.Auth) {
+      setOffer({ ...offer, isFavorite: !isFavorite });
+      const favoriteStatus = {
+        idOffer: id,
+        status: Number(!isFavorite),
+      };
+      dispatch(changeFavoriteStatus(favoriteStatus))
+        .then(() => dispatch(fetchFavoritesOffers()));
+
+    } else {
+      navigate(AppRoute.Login) ;
+    }
   };
+
   const euro = String.fromCodePoint(0x020AC);
 
   const offerDetailRef = `${AppRoute.Offer}/${id}`;
-
 
   return (
     <article
@@ -43,7 +50,7 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
         </div> :
         null}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to= {offerDetailRef}>
+        <Link to={offerDetailRef}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
         </Link>
       </div>
@@ -57,7 +64,7 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
             'place-card__bookmark-button button',
             { 'place-card__bookmark-button--active': isFavorite })}
           type="button"
-          onClick = {handelBookmarkButton}
+          onClick={handelBookmarkButton}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
@@ -72,7 +79,7 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to= {offerDetailRef}>
+          <Link to={offerDetailRef}>
             {title}
           </Link>
         </h2>
@@ -81,6 +88,5 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
     </article>
   );
 };
-
 
 export default PlaceCard;

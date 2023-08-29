@@ -60,6 +60,8 @@ const PageLogin = (): JSX.Element => {
                   name='password'
                   type='text'
                   placeholder='Password'
+                  pattern = '(?=.*\d)(?=/*[a-zA-Z]).*'
+                  title = 'Пароль должен состоять минимум из одной цифры и буквы'
                 />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>

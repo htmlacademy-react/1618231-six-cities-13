@@ -3,7 +3,6 @@ import {
   loadOffers,
   citySelection,
   sortBySelection,
-  setOffersDataLoadingStatus,
   requireAuthorization,
   loadDetailedOffer,
   loadCommentsOffer,
@@ -14,7 +13,7 @@ import {
   setFavoritesDataLoadingStatus,
   setFavoriteStatus,
 } from './actions';
-import { fetchDetailedOfferAction, loginAction } from './api-actions';
+import { fetchDetailedOfferAction, fetchOffersAction, loginAction } from './api-actions';
 import { offerState } from '../types/offer-type';
 import { AuthorizationStatus } from '../components/const';
 import { RequestStatus } from '../components/const';
@@ -59,7 +58,7 @@ const initialState: offerState = {
   },
   comments: [],
   sortBy: 'Popular',
-  isOffersDataLoading: false,
+  isOffersDataLoading: RequestStatus.Idle,
   isFavoriteDataLoading: false,
   loginSendStatus: RequestStatus.Idle,
   loadDetailedOfferStatus: RequestStatus.Idle,
@@ -112,9 +111,9 @@ const reducer = createReducer(initialState, (builder) => {
     state.sortBy = action.payload;
   });
 
-  builder.addCase(setOffersDataLoadingStatus, (state, action) => {
-    state.isOffersDataLoading = action.payload;
-  });
+  // builder.addCase(setOffersDataLoadingStatus, (state, action) => {
+  //   state.isOffersDataLoading = action.payload;
+  // });
 
   builder.addCase(setFavoritesDataLoadingStatus, (state, action) => {
     state.isFavoriteDataLoading = action.payload;
@@ -135,6 +134,15 @@ const reducer = createReducer(initialState, (builder) => {
   builder.addCase(setUserComment, (state, action) => {
     state.comment = action.payload;
   });
+
+  builder.addCase(fetchOffersAction.pending, (state) => {
+    state.isOffersDataLoading = RequestStatus.Pending;
+  });
+
+  builder.addCase(fetchOffersAction.fulfilled, (state) => {
+    state.isOffersDataLoading = RequestStatus.Success;
+  });
+
 
   builder.addCase(loginAction.pending, (state) => {
     state.loginSendStatus = RequestStatus.Pending;
