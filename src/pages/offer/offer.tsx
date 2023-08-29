@@ -51,8 +51,8 @@ const Offer = (): JSX.Element => {
         idOffer: id,
         status: Number(!isFavorite)
       };
-      dispatch(changeFavoriteStatus(favoriteStatus));
-      dispatch(fetchFavoritesOffers());
+      dispatch(changeFavoriteStatus(favoriteStatus))
+        .then(() => dispatch(fetchFavoritesOffers()));
     }
   };
 

@@ -1,5 +1,5 @@
 import { OfferType, Nullable } from '../../types/offer-type';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, FIVE_STARS } from '../const';
 import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
@@ -16,6 +16,7 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
   const { isPremium, isFavorite, previewImage, rating, title, id, price } = offer;
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector((state) => state.autorizationStatys);
+  const navigate = useNavigate();
 
   const handelBookmarkButton = () => {
 
@@ -25,11 +26,11 @@ const PlaceCard = ({ data, setActiveCard }: PlaceCardProps): JSX.Element => {
         idOffer: id,
         status: Number(!isFavorite),
       };
-      dispatch(changeFavoriteStatus(favoriteStatus));
-      dispatch(fetchFavoritesOffers());
+      dispatch(changeFavoriteStatus(favoriteStatus))
+        .then(() => dispatch(fetchFavoritesOffers()));
 
     } else {
-      return <Navigate to={AppRoute.Login} />;
+      navigate(AppRoute.Login) ;
     }
   };
 
