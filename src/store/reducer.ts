@@ -111,10 +111,6 @@ const reducer = createReducer(initialState, (builder) => {
     state.sortBy = action.payload;
   });
 
-  // builder.addCase(setOffersDataLoadingStatus, (state, action) => {
-  //   state.isOffersDataLoading = action.payload;
-  // });
-
   builder.addCase(setFavoritesDataLoadingStatus, (state, action) => {
     state.isFavoriteDataLoading = action.payload;
   });

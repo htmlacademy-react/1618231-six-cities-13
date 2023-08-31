@@ -7,7 +7,6 @@ import { AuthData } from '../../types/auth-data';
 import { AppRoute, AuthorizationStatus, RequestStatus } from '../../components/const';
 import cl from './pagelogin.module.css';
 import { Navigate } from 'react-router-dom';
-import { setUserName } from '../../store/actions';
 
 
 const PageLogin = (): JSX.Element => {
@@ -16,7 +15,6 @@ const PageLogin = (): JSX.Element => {
   const handleFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(loginAction(userData));
-    dispatch(setUserName(userData.email));
   };
   const loginSendStatus = useAppSelector((state) => state.loginSendStatus);
   const loginStatus = useAppSelector((state) => state.autorizationStatys);
@@ -60,8 +58,8 @@ const PageLogin = (): JSX.Element => {
                   name='password'
                   type='text'
                   placeholder='Password'
-                  pattern = '(?=.*\d)(?=/*[a-zA-Z]).*'
-                  title = 'Пароль должен состоять минимум из одной цифры и буквы'
+                  pattern='(?=.*\d)(?=/*[a-zA-Z]).*'
+                  title='Пароль должен состоять минимум из одной цифры и буквы'
                 />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>

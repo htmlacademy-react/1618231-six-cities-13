@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../types/offer-type';
 import { useState } from 'react';
-import { FIVE_STARS, AuthorizationStatus } from '../const';
+import { FIVE_STARS, AuthorizationStatus, AppRoute } from '../const';
 import cn from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { changeFavoriteStatus, fetchFavoritesOffers } from '../../store/api-actions';
@@ -15,6 +15,8 @@ const FavoriteCard = ({ data }: FavoriteItemProps): JSX.Element => {
   const { isPremium, isFavorite, previewImage, rating, title, id, price, type } = card;
   const authStatus = useAppSelector((state) => state.autorizationStatys);
   const dispatch = useAppDispatch();
+  const offerDetailRef = `${AppRoute.Offer}/${id}`;
+
 
   const handelBookmarkButton = () => {
 
@@ -38,7 +40,7 @@ const FavoriteCard = ({ data }: FavoriteItemProps): JSX.Element => {
         </div> :
         null}
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to="#">
+        <Link to={offerDetailRef}>
           <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place image" />
         </Link>
       </div>
@@ -67,7 +69,7 @@ const FavoriteCard = ({ data }: FavoriteItemProps): JSX.Element => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="#">{title}</Link>
+          <Link to={offerDetailRef}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
