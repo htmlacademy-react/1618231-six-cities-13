@@ -30,15 +30,14 @@ const Offer = (): JSX.Element => {
 
   useEffect(() => {
     if (idOffer) {
-      dispatch(fetchDetailedOfferAction(idOffer));
-      dispatch(fetchCommentsOfferAction(idOffer));
-      dispatch(fetchNearPlaces(idOffer));
+      dispatch(fetchDetailedOfferAction(idOffer))
+        .then(() => dispatch(fetchCommentsOfferAction(idOffer)))
+        .then(() => dispatch(fetchNearPlaces(idOffer)));
     }
   }, [dispatch, idOffer]);
 
   const [offer, setOffer] = useState(detailedOffer);
-  const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, isFavorite, id } = offer;
-
+  const { title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, isFavorite, id } = detailedOffer;
 
   const start = Math.floor(Math.random() * (nearPlaces.length - COUNT));
   const end = start + COUNT;
@@ -63,10 +62,10 @@ const Offer = (): JSX.Element => {
         <LoadScreen />
       )}
       {loadOfferStatus === RequestStatus.Reject && <Navigate to={`/${AppRoute.PageNotFound}`} />}
-      {loadDetailedOfferStatus === RequestStatus.Success && offer && (
+      {loadDetailedOfferStatus === RequestStatus.Success && detailedOffer && (
         <main className="page__main page__main--offer">
           <section className="offer">
-            {offer && <OfferGallery offer={offer} />}
+            {offer && <OfferGallery offer={detailedOffer} />}
             <div className="offer__container container">
               <div className="offer__wrapper">
                 {isPremium &&

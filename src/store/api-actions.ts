@@ -22,7 +22,7 @@ import {
 } from './actions';
 import { APIRoute, APIActions, AuthorizationStatus } from '../components/const';
 import { AuthData } from '../types/auth-data';
-import { UserData, AuthUserData } from '../types/user-data';
+import {AuthUserData } from '../types/user-data';
 import { dropToken, saveToken } from '../service/token';
 
 export const fetchOffersAction = createAsyncThunk<
@@ -34,9 +34,7 @@ export const fetchOffersAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >(APIActions.DataFetchOffers, async (_arg, { dispatch, extra: api }) => {
-  // dispatch(setOffersDataLoadingStatus(true));
   const { data } = await api.get<OfferType[]>(APIRoute.Offers);
-  // dispatch(setOffersDataLoadingStatus(false));
   dispatch(loadOffers(data));
 });
 
@@ -133,10 +131,9 @@ export const loginAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >(APIActions.UserLogin, async (loginData, { dispatch, extra: api }) => {
-  const {
-    data: { token },
-  } = await api.post<UserData>(APIRoute.Login, loginData);
-  saveToken(token);
+  const {data} = await api.post<AuthUserData>(APIRoute.Login, loginData);
+  saveToken(data.token);
+  dispatch(loadUserData(data));
   dispatch(requireAuthorization(AuthorizationStatus.Auth));
 });
 
